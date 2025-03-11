@@ -8,7 +8,7 @@ const PORT = 1700;
 
 //importing connection  and setting connection
  import { ConnectToMongoDB } from './connect.js'
- ConnectToMongoDB('mongodb://127.0.0.1:27017/QuoteUser')
+ ConnectToMongoDB('mongodb+srv://at7123029:19feb2004@cluster0.2m06u.mongodb.net/QuotesUsers')
  .then(()=> console.log("mongodb"))
  .catch((err)=> console.log(err))
 
