@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            position: relative;
+            margin-top: 100px;
+            width: 80%;
+            max-width: 1000px;
+            border: 2px solid gold;
+            border-radius: 25px;
+            background-color: rgb(11, 151, 215);
+            box-sizing: border-box;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .form {
+            display: inline-block;
+        }
+
+        .submit {
+            display: inline-block;
+            height: 40px;
+            width: 100px;
+            border: 2px solid rgb(77, 10, 10);
+            color: white;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background-color: rgb(192, 127, 42);
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .first {
+            color: white;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .tweet {
+            font-size: 14px;
+            border: none;
+            background-color: gold;
+            letter-spacing: 1px;
+            border-radius: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .aurthor {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .aurthor2 {
+            font-size: 18px;
+        }
+
+        .second {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Profile Section */
+        .profile-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            background: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            top: 100%;
+            right: 0;
+            min-width: 150px;
+        }
+
+        .dropdown a, .dropdown form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown a:hover, .dropdown form button:hover {
+            background: #f1f1f1;
+        }
+
+        .profile-container:hover .dropdown {
+            display: block;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1024px) {
+            .container {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .aurthor {
+                font-size: 18px;
+            }
+
+            .aurthor2 {
+                font-size: 16px;
+            }
+
+            .second {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .submit, .tweet {
+                width: 80%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                top: 10px;
+                right: 10px;
+            }
+
+            .container {
+                margin-top: 60px;
+                padding: 10px;
+            }
+
+            .aurthor {
+                font-size: 16px;
+            }
+
+            .aurthor2 {
+                font-size: 14px;
+            }
+
+            .submit, .tweet {
+                font-size: 12px;
+                padding: 8px 15px;
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Profile Section -->
+    <div class="profile-container">
+        <button class="profile-btn">
+            <i class="fa-solid fa-user" style="font-size: 24px; color: blue;"></i>
+        </button>
+        <div class="dropdown">
+            <a href="/profile">See Profile</a>
+            <form action="/logout" method="get">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quote Container -->
+    <div class="container">
+        <div class="first">
+            <h1><span>Quote: </span><span class="quote" id="quote"><%=randomQuote.quote%></span></h1>
+            <div class="aurthor">
+                <h1 class="aurthor2"><span id="author">~</span><span><%=randomQuote.author%></span></h1>
+            </div>
+        </div>
+       
+        <div class="second">
+            <button class="submit" id="new-quote">New Quote</button>
+            <button onclick="tweet()" class="tweet">Tweet</button>
+        </div>
+    </div>
+   
+    <script>
+        function tweet() {
+            const quote = "<%= randomQuote.quote %>";
+            window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(quote));
+        }
+
+        document.getElementById("new-quote").addEventListener("click", async function (event) {
+            event.preventDefault();
+
+            try {
+                let response = await fetch("/api/quote");
+                let data = await response.json();
+
+                document.getElementById("quote").innerText = data.quote;
+                document.getElementById("author").innerText = `- ${data.author}`;
+
+            } catch (error) {
+                console.error("Error fetching quote:", error);
+            }
+        });
+    </script>
+
+</body>
+</html>
