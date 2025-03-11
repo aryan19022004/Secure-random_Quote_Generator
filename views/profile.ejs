@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Profile</h2>
+        <form action="/user/update-profile" method="POST">
+            <label>Name:</label>
+            <input type="text" name="name" value="<%= user.name %>">
+
+            <label>Email:</label>
+            <input type="email" name="email" value="<%= user.email %>" readonly>
+
+            <button type="submit">Update Profile</button>
+        </form>
+        <form action="/logout" method="get">
+            <button type="submit">logout</button>
+        </form>
+    </div>
+</body>
+</html>
